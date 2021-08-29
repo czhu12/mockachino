@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block body %}
+<script>
+  $(function() {
+    var handler = window.App.initializeForm($('#form'));
+    $('#submit').click(function() {
+      var payload = window.App.getPayload(handler);
+      $.ajax({
+        type: "POST",
+        url: "/api/namespaces",
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify(payload),
+        success: function(data) {
+          location.href = data['redirect'];
+        },
+      }).fail(function() {
+        alert( "error" );
+      });
+    })
+  });
+</script>
+
+<div class="container py-5 mb-3 content" x-data="{}">
+  <div class="fancy-font text-center my-4 mb-5">
+    <span class="display-1 fw-bold text-main">Mockachino <i style="vertical-align: top;" class="fas fa-mug-hot text-main"></i></span>
+    <br/>
+    <div class="h4 mt-3">A mock JSON API in <span class="text-main">10 seconds.</span></div>
+  </div>
+  <div class="card">
+    <div class="card-body" id="form">
+      {% include 'namespaces/_form.html' %}
+      <div class="d-grid gap-2">
+        <button id="submit" class="btn btn-main btn-lg btn-block">
+          Create <i class="ms-2 fas fa-play"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {% if useful_spaces|length > 0 %}
+    <div class="my-5">
+      <div class="h4 text-center mb-3">
+        Useful API's
+      </div>
+      {% with namespaces=useful_spaces %}
+        {% include "namespaces/_list.html" %}
+      {% endwith %}
+    </div>
+  {% endif %}
+
+  <hr class="my-5" style="margin: 0 auto; height: 3px; width: 50px;" />
+  {% include "namespaces/_explained.html" %}
+</div>
+
+{% endblock %}

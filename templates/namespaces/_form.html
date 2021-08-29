@@ -1,0 +1,44 @@
+<div class="my-3" id="{{route.uuid}}">
+  <label>HTTP Path</label>
+  <div class="row">
+    <div class="col-12 col-md-2 mb-4 mb-md-0">
+      <select name="verb" class="form-select">
+        {% for verb in Verb %}
+          <option value="{{verb.value}}" {{ 'selected' if route.verb == verb.value else '' }}>{{verb.value}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-12 col-md-10">
+      <div class="input-group">
+        <span class="input-group-text d-none d-sm-block" id="addon-wrapping">https://mockachino.com/{{ uuid }}/</span>
+        <span class="input-group-text d-sm-none" id="addon-wrapping">/{{ uuid }}/</span>
+        <input name="path" type="text" value="{{route.path}}" class="form-control">
+        <input name="namespace_uuid" type="hidden" value="{{ uuid }}">
+        <input name="route_uuid" type="hidden" value="{{ route.uuid }}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="my-3">
+  <label>HTTP Response Status Code</label>
+  <div class="row">
+    <div class="col-6 col-lg-4">
+      <select name="status_code" class="form-select" aria-label="Default select example">
+        {% for status_code in StatusCode %}
+          <option value="{{status_code.value}}" {{ 'selected' if route.status_code == status_code.value else '' }}>{{status_code.value}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="my-3">
+  <label>HTTP Response Headers</label>
+  <div data-name="headersEditor" class="editor" style="width: 100%; height: 150px;" data-value="{{route.headers}}"></div>
+</div>
+
+<div class="my-3">
+  <label>HTTP Response Body</label>
+  <div data-name="bodyEditor" class="editor" style="width: 100%; height: 300px;" data-value="{{route.body}}"></div>
+</div>

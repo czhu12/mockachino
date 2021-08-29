@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<script>
+  $(function() {
+    var uuid = '{{uuid}}';
+    $("#url").html("https://mockachino.com" + location.pathname);
+    $("#url").attr('href', location.href);
+
+    var handler = window.App.initializeForm($('#create-form'));
+    $('#submit').click(function() {
+      var payload = window.App.getPayload(handler);
+      console.log(payload);
+      $.ajax({
+        type: "POST",
+        url: "/api/namespaces",
+        headers: {'Content-Type': 'application/json'},
+        data: JSON.stringify(payload),
+        success: function(data) {
+          location.href = data['redirect'];
+        },
+      }).fail(function() {
+        alert( "error" );
+      });
+    });
+    $('.form').each(function() {
+      var handler = window.App.initializeForm($(this));
+      var routeUuid = $(this).data('route-uuid');
+
+      $(this).find(".delete").click(function() {
+        var payload = window.App.getPayload(handler).route;
+
+        $.ajax({
+          type: "DELETE",
+          url: `/api/namespaces/${uuid}/routes/${routeUuid}`,
+          headers: {'Content-Type': 'application/json'},
+          success: function(data) {
+            location.href = data['redirect'];
+          },
+        }).fail(function() {
+          alert( "error" );
+        });
+      });
+
+      $(this).find(".update").click(function() {
+        var payload = window.App.getPayload(handler).route;
+
+        $.ajax({
+          type: "PUT",
+          url: `/api/namespaces/${uuid}/routes/${routeUuid}`,
+          headers: {'Content-Type': 'application/json'},
+          data: JSON.stringify(payload),
+          success: function(data) {
+            location.href = data['redirect'];
+          },
+        }).fail(function() {
+          alert( "error" );
+        });
+      });
+    });
+  });
+</script>
+
+<div class="container">
+  <div class="h3 mb-2 mt-4">
+    <b>Your Space</b>
+  </div>
+  <div>
+    <i><a id="url" href="">https://mockachino.com/</a></i>
+  </div>
+  <div class="card my-5 p-5">
+
+    <!-- https://petstore.swagger.io/#/ -->
+    {% for route in routes %}
+      <div class="my-2" x-data='{}'>
+        <div class="pointer route {{ route.verb.lower() }} py-3 px-2 rounded" x-on:click="new bootstrap.Collapse($('#{{ route.uuid }}-expand'))">
+          <div class="row">
+            <div class="col-auto">
+              <div class="verb rounded">{{ route.verb }}</div>
+            </div>
+            <div class="col my-auto">
+              <div><b><code>/{{route.path}}</code></b></div>
+            </div>
+            <div class="col-auto me-3 my-auto">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+        </div>
+        <div class="collapse" id="{{ route.uuid }}-expand">
+          <div class="card card-body form" data-route-uuid={{route.uuid}}>
+            <label>Test</label>
+            <pre class="language-shell"><code>curl -X {{route.verb}} https://mockachino.com/{{uuid}}/{{route.path}}</code></pre>
+
+            {% include 'namespaces/_form.html' %}
+            <div class="text-end">
+              <button class="btn btn-outline-primary update">Update</button>
+              <button class="btn btn-outline-danger delete">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    <div x-data="{open: false}">
+      <div class="mt-4 d-grid gap-2">
+        <button x-show="!open" @click="open = ! open" class="btn btn-outline-primary btn-lg btn-block">
+          Add Another Route <i class="ms-2 fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="card" x-show="open" x-transition.opacity>
+        <div class="card-body" id="create-form">
+          <div class="text-end">
+            <span class="pointer" @click="open = false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+              </svg>
+            </span>
+          </div>
+          {% with route=new_route %}
+            {% include 'namespaces/_form.html' %}
+          {% endwith %}
+          <div class="d-grid gap-2">
+            <button id="submit" class="btn btn-main btn-lg btn-block">
+              Create <i class="ms-2 fas fa-play"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

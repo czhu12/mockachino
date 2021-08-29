@@ -1,0 +1,98 @@
+:root {
+  --main-color: 102,69,42;
+  --main-shade: 155,121,96;
+  --get-color: 52, 152, 219;
+  --post-color: 46, 204, 113;
+  --put-color: 230, 126, 34;
+  --delete-color: 231, 76, 60;
+}
+
+body {
+  background-color: rgb(255, 253, 251);
+  height: 100%;
+  font-family: "Lato";
+  color: #333;
+}
+
+.fancy-font {
+  font-family: "Azeret Mono", monospace;
+}
+
+.text-main {
+  color: rgb(var(--main-color));
+}
+
+.btn-main, .btn-main:visited {
+  background-color: rgb(var(--main-shade)) !important;
+  border-color: rgb(var(--main-shade)) !important;
+  color: white;
+}
+
+.btn-main:hover, .btn-main:active {
+  background-color: rgb(var(--main-color)) !important;
+  border-color: rgb(var(--main-color)) !important;
+  color: white;
+}
+
+.content {
+  max-width: 800px;
+}
+
+.jsoneditor {
+  border: 1px solid rgba(0,0,0,.125);;
+  border-radius: .25rem;
+}
+
+label {
+  margin-bottom: 15px;
+  font-weight: thin;
+  font-size: 1.1em;
+}
+
+.route.get {
+  background-color: rgba(var(--get-color), 0.2);;
+  border: thin solid rgb(var(--get-color));
+}
+
+.route.post {
+  background-color: rgba(var(--post-color), 0.2);;
+  border: thin solid rgb(var(--post-color));
+}
+
+.route.put {
+  background-color: rgba(var(--put-color), 0.2);;
+  border: thin solid rgb(var(--put-color));
+}
+
+.route.patch {
+  background-color: rgba(var(--patch-color), 0.2);;
+  border: thin solid rgb(var(--patch-color));
+}
+
+.route.delete {
+  background-color: rgba(var(--delete-color), 0.2);;
+  border: thin solid rgb(var(--delete-color));
+}
+
+.route .verb {
+  text-align: center;
+  width: 80px;
+  color: white;
+  padding: 5px 0px;
+}
+
+.route.get .verb {
+  background-color: rgb(var(--get-color));
+}
+
+.route.post .verb {
+  background-color: rgb(var(--post-color));
+}
+
+.pointer {
+  cursor: pointer;
+}
+code {
+  color: inherit !important;
+  font-size: 1em !important;
+}

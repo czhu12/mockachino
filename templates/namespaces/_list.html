@@ -1,0 +1,11 @@
+<div class="row">
+  {% for namespace in namespaces %}
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-body pointer">
+          <b>{{namespace['name']}}</b>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
