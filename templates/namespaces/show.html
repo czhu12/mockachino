@@ -4,7 +4,7 @@
 <script>
   $(function() {
     var uuid = '{{uuid}}';
-    $("#url").html("https://mockachino.com" + location.pathname);
+    $("#url").html("https://www.mockachino.com" + location.pathname);
     $("#url").attr('href', location.href);
 
     var handler = window.App.initializeForm($('#create-form'));
@@ -66,7 +66,7 @@
     <b>Your Space</b>
   </div>
   <div>
-    <i><a id="url" href="">https://mockachino.com/</a></i>
+    <i><a id="url" href="">https://www.mockachino.com/</a></i>
   </div>
   <div class="card my-5 p-5">
 
@@ -89,7 +89,7 @@
         <div class="collapse" id="{{ route.uuid }}-expand">
           <div class="card card-body form" data-route-uuid={{route.uuid}}>
             <label>Test</label>
-            <pre class="language-shell"><code>curl -X {{route.verb}} https://mockachino.com/{{uuid}}/{{route.path}}</code></pre>
+            <pre class="language-shell"><code>curl -X {{route.verb}} https://www.mockachino.com/{{uuid}}/{{route.path}}</code></pre>
 
             {% include 'namespaces/_form.html' %}
             <div class="text-end">
