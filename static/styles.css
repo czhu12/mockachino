@@ -5,6 +5,7 @@
   --post-color: 46, 204, 113;
   --put-color: 230, 126, 34;
   --delete-color: 231, 76, 60;
+  --patch-color: 155, 89, 182;
 }
 
 body {
@@ -87,6 +88,18 @@ label {
 
 .route.post .verb {
   background-color: rgb(var(--post-color));
+}
+
+.route.patch .verb {
+  background-color: rgb(var(--patch-color));
+}
+
+.route.put .verb {
+  background-color: rgb(var(--put-color));
+}
+
+.route.delete .verb {
+  background-color: rgb(var(--delete-color));
 }
 
 .pointer {

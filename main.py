@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
 from models.base import Namespace, Route, Credentials, NotFoundException
 from models.requests import StatusCode, Verb, RouteRequest, NamespaceRequest
+from urllib import parse
 import requests
 import json
 
@@ -19,6 +20,12 @@ USEFUL_SPACES = [
     #blogs, social network, films, products
 ]
 
+
+def compare(route, request):
+    route_url = parse.urlsplit(route.path)
+    route_query_params = dict(parse.parse_qsl(route_url.query))
+    request_query_params = dict(parse.parse_qsl(request.url.query))
+    return route_url.path == request.url.path and route_query_params == request_query_params
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -114,9 +121,11 @@ async def index(request: Request):
 @app.delete("/{namespace_uuid}/{path:path}")
 async def api(request: Request, namespace_uuid: str, path: str):
     verb = Verb(request.method)
+    query_params = dict(request.query_params)
     try:
         namespace = Namespace.first(namespace_uuid)
-        route = [r for r in namespace.get_routes() if r.path == path and r.verb == verb.value][0]
+        route = [r for r in namespace.get_routes() if compare(r, request)][0]
+
         headers = json.loads(route.headers)
         return JSONResponse(content=json.loads(route.body), headers=headers, status_code=route.status_code)
     except (NotFoundException, IndexError):

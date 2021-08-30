@@ -26,7 +26,10 @@
     <div class="col-6 col-lg-4">
       <select name="status_code" class="form-select" aria-label="Default select example">
         {% for status_code in StatusCode %}
-          <option value="{{status_code.value}}" {{ 'selected' if route.status_code == status_code.value else '' }}>{{status_code.value}}</option>
+          <option
+            value="{{status_code.value}}" {{ 'selected' if route.status_code == status_code.value else '' }}>
+            {{status_code.value}} - {{status_code.name}}
+          </option>
         {% endfor %}
       </select>
     </div>
