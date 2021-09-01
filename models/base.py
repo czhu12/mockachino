@@ -48,6 +48,11 @@ class Route(Model, PynamoCrud):
     body = UnicodeAttribute()
     verb = UnicodeAttribute()
 
+    @property
+    def curl_command(self):
+        url = "https://www.mockachino.com/{}/{}".format(self.namespace_uuid, self.path)
+        return "curl -X {verb} {url}".format(verb = self.verb, url=url)
+
 class Namespace(Model, PynamoCrud):
     """
     A DynamoDB Namespace

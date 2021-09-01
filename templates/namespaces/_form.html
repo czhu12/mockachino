@@ -28,7 +28,7 @@
         {% for status_code in StatusCode %}
           <option
             value="{{status_code.value}}" {{ 'selected' if route.status_code == status_code.value else '' }}>
-            {{status_code.value}} - {{status_code.name}}
+            {{status_code.value}} - {{status_code.readable}}
           </option>
         {% endfor %}
       </select>

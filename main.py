@@ -11,6 +11,7 @@ from models.requests import StatusCode, Verb, RouteRequest, NamespaceRequest
 from urllib import parse
 import requests
 import json
+from utils.utils import compare
 
 import random
 import uuid
@@ -20,12 +21,6 @@ USEFUL_SPACES = [
     #blogs, social network, films, products
 ]
 
-
-def compare(route, request):
-    route_url = parse.urlsplit(route.path)
-    route_query_params = dict(parse.parse_qsl(route_url.query))
-    request_query_params = dict(parse.parse_qsl(request.url.query))
-    return route_url.path == request.url.path and route_query_params == request_query_params
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")

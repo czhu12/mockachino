@@ -10,7 +10,6 @@
     var handler = window.App.initializeForm($('#create-form'));
     $('#submit').click(function() {
       var payload = window.App.getPayload(handler);
-      console.log(payload);
       $.ajax({
         type: "POST",
         url: "/api/namespaces",
@@ -89,7 +88,7 @@
         <div class="collapse" id="{{ route.uuid }}-expand">
           <div class="card card-body form" data-route-uuid={{route.uuid}}>
             <label>Test</label>
-            <pre class="language-shell"><code>curl -X {{route.verb}} https://www.mockachino.com/{{uuid}}/{{route.path}}</code></pre>
+            <pre class="language-shell"><code>{{route.curl_command}}</code></pre>
 
             {% include 'namespaces/_form.html' %}
             <div class="text-end">

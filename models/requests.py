@@ -1,6 +1,8 @@
+import os
 from typing import Dict
 from pydantic import BaseModel
 from enum import Enum
+from utils.utils import standardize_path
 
 class StatusCode(Enum):
     OK = 200
@@ -14,6 +16,10 @@ class StatusCode(Enum):
     FORBIDDEN = 404
     METHOD_NOT_ALLOWED = 405
     NOT_ACCEPTABLE = 406
+
+    @property
+    def readable(self):
+        return self.name.replace('_', ' ').title()
 
 class Verb(Enum):
     GET = "GET"
@@ -33,6 +39,10 @@ class RouteRequest(BaseModel):
     namespace_uuid: str
     headers: Dict = {}
     body: Dict = {}
+
+    def dict(self, *args, **kwargs):
+        self.path = standardize_path(self.path)
+        return super(RouteRequest, self).dict(*args, **kwargs)
 
 class NamespaceRequest(BaseModel):
     class Config:
