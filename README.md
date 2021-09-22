@@ -1,4 +1,5 @@
-![image](https://github.com/czhu12/mockachino/raw/main/static/image.png)
+![image](https://github.com/czhu12/mockachino/raw/main/static/image-small.png)
+
 Mockachino is a way to quickly get an API up and running.
 
 ```
