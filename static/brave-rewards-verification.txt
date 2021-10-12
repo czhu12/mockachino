@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: mockachino.com
+Token: 8b26917de67b0e106afa481fdc139e3ae759199a6d12e12eaeeec5da95f9752d

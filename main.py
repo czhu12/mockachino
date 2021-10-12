@@ -4,6 +4,7 @@ from typing import Dict
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
 from models.base import Namespace, Route, Credentials, NotFoundException
@@ -20,12 +21,21 @@ from dotenv import load_dotenv
 USEFUL_SPACES = [
     #blogs, social network, films, products
 ]
+origins = [ "*" ]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-
-app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/favicon.ico")
 async def favicon(): return FileResponse('./static/favicon.ico')
+
+@app.get("/.well-known/brave-rewards-verification.txt")
+async def favicon(): return FileResponse('./static/brave-rewards-verification.txt')
 
 templates = Jinja2Templates(directory="templates")
 
